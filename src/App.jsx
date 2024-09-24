@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import Kysymyslista from './components/KysymysLista';
+import Kysymyslomake from './components/Kysymyslomake';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
     <>
       <div>
         <Kysymyslista kysymykset={kysymykset} />
+        <Kysymyslomake />
       </div>
     </>
   )
