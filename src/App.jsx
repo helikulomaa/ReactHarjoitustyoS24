@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import Kysymyslista from './components/KysymysLista';
 import Kysymyslomake from './components/Kysymyslomake';
+import Kysymyshaku from './components/Kysymyshaku';
 
 function App() {
 
@@ -12,30 +13,43 @@ function App() {
       id: 1,
       kysymys: 'Mitä tunteita tunsin tänään?',
       luontipaiva: '3.9.2024',
-      kategoria: 'Tunteet ja itsehavainnointi',
-      kuva: ''
+      kategoria: '2'
     },
     {
       id: 2,
       kysymys: 'Tuntuiko tänään jokin ihmisuhteisiin liittyvä asia haastavalta?',
       luontipaiva: '12.9.2024',
-      kategoria: 'Ihmissuhteet ja vuorovaikutus',
-      kuva: ''
+      kategoria: '3'
     },
     {
       id: 3,
       kysymys: 'Miten edistin tänään tavoitteitani?',
       luontipaiva: '24.9.2024',
-      kategoria: 'Itsensäkehittäminen ja tulevaisuus',
-      kuva: ''
+      kategoria: '4',
+
+    },
+    {
+      id: 4,
+      kysymys: 'Mikä vuorovaikutus tilanne meni tänään hyvin ja miksi?',
+      luontipaiva: '12.9.2024',
+      kategoria: '3'
     }
   ];
 
   return (
     <>
       <div>
+        <h1>Kysymyksiä päivittäisen kirjoittamisen tueksi</h1>
+      </div>
+      <div>
+        <h2>Kaikki kysymykset</h2>
         <Kysymyslista kysymykset={kysymykset} />
+      </div>
+      <div>
         <Kysymyslomake />
+      </div>
+      <div>
+        <Kysymyshaku kysymykset={kysymykset} />
       </div>
     </>
   )

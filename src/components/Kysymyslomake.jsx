@@ -27,7 +27,6 @@ function Kysymyslomake() {
                 kysymys: '',
                 luontipaiva: '',
                 kategoria: '',
-                kuva: ''
             });
             setViesti('Lisättiin');
         }
@@ -35,6 +34,7 @@ function Kysymyslomake() {
 
     return (
         <form>
+            <h2>Lisää uusi kysymys</h2>
             <label>Kysymys <br />
                 <input type='text' name='kysymys' value={kysymys.kysymys}
                     onChange={(e) => muuta(e)} /> <br />
@@ -43,12 +43,9 @@ function Kysymyslomake() {
                 <input type='text' name='luontipaiva' value={kysymys.luontipaiva}
                     onChange={(e) => muuta(e)} /> <br />
             </label>
-            <label>Kategoria <br />
+            <label>Kategorian numero (1.Yleisiä kysymyksiä liittyen päivään, 2. Tunteet ja itsehavainnointi <br />
+                3. Ihmissuhteet ja vuorovaikutus 4. Tulevaisuus ja Itsensäkehittäminen) <br />
                 <input type='text' name='kategoria' value={kysymys.kategoria}
-                    onChange={(e) => muuta(e)} /> <br />
-            </label>
-            <label>Kuvan linkki <br />
-                <input type='text' name='kuva' value={kysymys.kuva}
                     onChange={(e) => muuta(e)} /> <br />
             </label>
             <input type='button' value='Lisää'
