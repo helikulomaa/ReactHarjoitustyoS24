@@ -3,6 +3,7 @@ import './App.css'
 import Kysymyslista from './components/KysymysLista';
 import Kysymyslomake from './components/Kysymyslomake';
 import Kysymyshaku from './components/Kysymyshaku';
+import RandomKysymys from './components/RandomKysymys'
 
 function App() {
 
@@ -40,6 +41,10 @@ function App() {
     <>
       <div>
         <h1>Kysymyksiä päivittäisen kirjoittamisen tueksi</h1>
+      </div>
+      <div>
+        <h2>Päivän kysymys</h2>
+        <RandomKysymys kysymykset={kysymykset} kysymys='kysymys' />
       </div>
       <div>
         <h2>Kaikki kysymykset</h2>
