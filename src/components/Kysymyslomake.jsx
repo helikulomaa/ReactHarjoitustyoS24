@@ -23,7 +23,7 @@ function Kysymyslomake() {
         if (kysymys.kysymys.length === 0) {
             setViesti('Lisää kysymys.')
         } else {
-            setMatka({
+            setKysymys({
                 kysymys: '',
                 luontipaiva: '',
                 kategoria: '',
