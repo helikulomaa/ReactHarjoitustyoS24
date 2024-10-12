@@ -1,7 +1,7 @@
 import { AppBar, Box, ListItemIcon, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
-import HomeIcon from '@mui/icons-material/Home';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import ListIcon from '@mui/icons-material/List';
 import SearchIcon from '@mui/icons-material/Search';
 import Kysymyshaku from '../components/Kysymyshaku'
@@ -51,7 +51,7 @@ function TabMUI() {
         <Box>
             <AppBar position="static" >
                 <Tabs value={value} onChange={handleChange} textColor="inherit" >
-                    <Tab label='Etusivu' icon={< HomeIcon />} />
+                    <Tab label='Päivän kysymys' icon={< HelpOutlineOutlinedIcon />} />
                     <Tab label='Kaikki kysymykset' icon={< ListIcon />} />
                     <Tab label='Lisää uusi kysymys' icon={< EditIcon />} />
                     <Tab label='Hae kysymyksiä' icon={< SearchIcon />} />

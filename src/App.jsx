@@ -8,15 +8,15 @@ import { CssBaseline } from '@mui/material';
 import TabMUI from './navigation/TabMUI';
 import { Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { pink, lime, teal } from '@mui/material/colors';
+import { amber, blue } from '@mui/material/colors';
 
 
 function App() {
 
   const theme = createTheme({
     palette: {
-      primary: teal,
-      secondary: lime,
+      primary: { main: blue[800] },
+      secondary: amber
     },
     typography: {
       fontFamily: "'Quicksand', sans-serif",
