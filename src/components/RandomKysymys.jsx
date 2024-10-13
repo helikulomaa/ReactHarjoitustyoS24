@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, Typography, Card, CardHeader, CardContent, CardActions, CardMedia } from "@mui/material";
+import { Box, Button, Typography, Card, CardHeader, CardContent, CardActions, CardMedia, Container } from "@mui/material";
 
 function RandomKysymys({ kysymykset, kysymys }) {
     /* Komponentti ottaa vastaan propsin nimeltä kysymykset ja tuon objektin muuttujan nimeltä kysymys */
@@ -16,8 +16,8 @@ function RandomKysymys({ kysymykset, kysymys }) {
     }
 
     return (
-        <Box sx={{ marginTop: 10 }}>
-            <Card sx={{ maxWidth: 600 }}>
+        <Container maxWidth="sm">
+            <Card sx={{ maxWidth: 600, marginTop: 7 }}>
                 <CardContent>
                     <Typography variant="h4">{kysymykset[randomIndex][kysymys]}</Typography>
                 </CardContent>
@@ -31,7 +31,7 @@ function RandomKysymys({ kysymykset, kysymys }) {
                     <Button variant="outlined" size="small" onClick={updateRandomIndex}>Uusi kysymys</Button>
                 </CardActions>
             </Card>
-        </Box>
+        </Container>
     );
 }
 

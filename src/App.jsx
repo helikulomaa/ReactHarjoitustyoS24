@@ -26,10 +26,10 @@ function App() {
   return (
 
     <ThemeProvider theme={theme}>
-      <Box>
-        <CssBaseline />
-        <TabMUI />
-      </Box>
+        <Box>
+          <CssBaseline />
+          <TabMUI />
+        </Box>
     </ThemeProvider>
 
 
