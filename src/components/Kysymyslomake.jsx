@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Box, Typography, TextField, Button, Paper } from '@mui/material';
 
 function Kysymyslomake() {
     const [kysymys, setKysymys] = useState({
@@ -33,25 +34,55 @@ function Kysymyslomake() {
     }
 
     return (
-        <form>
-            <h2>Lisää uusi kysymys</h2>
-            <label>Kysymys <br />
-                <input type='text' name='kysymys' value={kysymys.kysymys}
-                    onChange={(e) => muuta(e)} /> <br />
-            </label>
-            <label>Päivämäärä <br />
-                <input type='text' name='luontipaiva' value={kysymys.luontipaiva}
-                    onChange={(e) => muuta(e)} /> <br />
-            </label>
-            <label>Kategorian numero (1.Yleisiä kysymyksiä liittyen päivään, 2. Tunteet ja itsehavainnointi <br />
-                3. Ihmissuhteet ja vuorovaikutus 4. Tulevaisuus ja Itsensäkehittäminen) <br />
-                <input type='text' name='kategoria' value={kysymys.kategoria}
-                    onChange={(e) => muuta(e)} /> <br />
-            </label>
-            <input type='button' value='Lisää'
-                onClick={(e) => lisaaMatka(e)} /><br />
-            {viesti}
-        </form>
+<Box 
+      display="flex" 
+      justifyContent="center" 
+      alignItems="center" 
+      minHeight="100vh" 
+    >
+      <Paper elevation={3} sx={{ padding: 4, maxWidth: 600, width: '100%' }}>
+        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Typography variant="h4" align="center">Lisää uusi kysymys</Typography>
+          
+          <TextField
+            label="Kysymys"
+            name="kysymys"
+            value={kysymys.kysymys}
+            onChange={(e) => muuta(e)}
+            variant="outlined"
+            fullWidth
+          />
+          
+          <TextField
+            label="Päivämäärä"
+            name="luontipaiva"
+            value={kysymys.luontipaiva}
+            onChange={(e) => muuta(e)}
+            variant="outlined"
+            fullWidth
+          />
+          
+          <TextField
+            label="Kategorian numero (1. Ohjelmistokehityksen teknologioihin liittyvät taidot, 2. Ohjelmistokehityksen prosesseihin ja työnkulkuihin liittyvät taidot, 3. Yhteistyö- ja vuorovaikutustaidot)"
+            name="kategoria"
+            value={kysymys.kategoria}
+            onChange={(e) => muuta(e)}
+            variant="outlined"
+            fullWidth
+          />
+          
+          <Button variant="contained" onClick={(e) => lisaaMatka(e)}>
+            Lisää
+          </Button>
+          
+          {viesti && (
+            <Typography variant="body1" color="primary" align="center">
+              {viesti}
+            </Typography>
+          )}
+        </Box>
+      </Paper>
+    </Box>
     )
 }
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Box, Button, Typography, List, ListItem, TextField } from "@mui/material";
 
 function Kysymyshaku({ kysymykset }) {
     const [kategoria, setKategoria] = useState('');
@@ -24,38 +25,49 @@ function Kysymyshaku({ kysymykset }) {
                 // Muuttuja, jonka sisältönä tulee olemaan haun tulos
                 let haku = result.map(kysymys => {
                     return (
-                        <p key={kysymys.id}>
-                            {kysymys.kysymys}
-                        </p>
+                        <Typography key={kysymys.id}>{kysymys.kysymys}</Typography>
                     ); // return
                 }) // map
 
                 return (haku);
             } else {
-                return (<p>Kyseisessä kategoriassa ei ole kysymyksiä</p>);
+                return (<Typography>Kyseisessä kategoriassa ei ole kysymyksiä</Typography>);
             } // if result.length
         } // if haetaan
     }
 
     return (
-        <div>
-            <h2>Hae kysymyksiä kategorialla</h2>
-            <ol>
-                <li>Yleisiä kysymyksiä liittyen päivään</li>
-                <li>Tunteet ja itsehavainnointi</li>
-                <li>Ihmissuhteet ja vuorovaikutus</li>
-                <li>Tulevaisuus ja Itsensäkehittäminen</li>
-            </ol>
-            <form>
-                <label>Kategorian numero <br />
-                    <input type='text' name='kategoria' value={kategoria}
-                        onChange={(e) => muuta(e)} />&nbsp;
-                </label>
-                <input type='button' value='Hae' onClick={() => hae()} />
-            </form>
-
-            {haeKysymykset()}
-        </div>
+        <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"   // Keskittää sisällön vaakasuunnassa
+            justifyContent="center" // Keskittää sisällön pystysuunnassa
+            minHeight="100vh" // Asettaa boksin korkeudeksi koko näkyvän ruudun
+            gap={2} // Väliä elementtien väliin
+        >
+            <Typography variant='h6'>Hae kysymyksiä kategorian numerolla</Typography>
+            <List>
+                <ListItem>1. Ohjelmistokehityksen teknologioihin liittyvät taidot</ListItem>
+                <ListItem>2. Ohjelmistokehityksen prosesseihin ja työnkulkuihin liittyvät taidot</ListItem>
+                <ListItem>3. Yhteistyö- ja vuorovaikutustaidot</ListItem>
+            </List>
+            <Box component="form" sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Typography variant="body1">Kategorian numero</Typography>
+                <TextField
+                    variant="outlined"
+                    name="kategoria"
+                    value={kategoria}
+                    onChange={(e) => muuta(e)}
+                    size="small"
+                />
+                <Button variant="contained" onClick={() => hae()}>
+                    Hae
+                </Button>
+            </Box>
+            <Box>
+                {haeKysymykset()}
+            </Box>
+        </Box>
     )
 }
 
