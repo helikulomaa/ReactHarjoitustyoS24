@@ -25,5 +25,17 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "vite": "^5.4.1"
-  }
+  },
+  "description": "Haaga-Helian Front end -ohjelmointi -kurssin harjoitustyö.",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helikulomaa/ReactHarjoitustyoS24.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/helikulomaa/ReactHarjoitustyoS24/issues"
+  },
+  "homepage": "https://github.com/helikulomaa/ReactHarjoitustyoS24#readme"
 }

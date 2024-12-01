@@ -4,11 +4,12 @@ import { CssBaseline } from '@mui/material';
 import Kysymyslista from './components/Kysymyslista';
 import Kysymyslomake from './components/Kysymyslomake';
 import Kysymyshaku from './components/Kysymyshaku';
-import RandomKysymys from './components/RandomKysymys'
+import Paivakirja from './components/Paivakirja'
+import KysymysMuokkaa from './components/KysymysMuokkaa';
 import MenuMUI from './navigation/MenuMUI';
 import { Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { amber, green } from '@mui/material/colors';
+import { amber, green, teal } from '@mui/material/colors';
 import { createBrowserRouter, RouterProvider, useRouteError, isRouteErrorResponse, Link } from 'react-router-dom';
 
 
@@ -16,7 +17,7 @@ function App() {
 
   const theme = createTheme({
     palette: {
-      primary: { main: green[900] },
+      primary: { main: green[700] },
       secondary: amber
     },
     typography: {
@@ -49,7 +50,7 @@ function App() {
     }
   })
 
-  const kysymykset = [
+  const [kysymykset, setKysymykset] = useState([
     {
       id: 1,
       kysymys: 'Minkä niksin opin tänään harjoittelemastani ohjelmointikielestä tai työkalusta?',
@@ -75,7 +76,7 @@ function App() {
       luontipaiva: '12.9.2024',
       kategoria: '3'
     }
-  ];
+  ]);
 
   function Error() {
     let error = useRouteError();
@@ -109,7 +110,7 @@ function App() {
       children: [
         {
           path: "/",
-          element: <RandomKysymys kysymykset={kysymykset} kysymys='kysymys' />
+          element: <Paivakirja kysymykset={kysymykset} kysymys='kysymys' />
         },
         {
           path: "/lisaa",
@@ -117,11 +118,15 @@ function App() {
         },
         {
           path: "/listaa",
-          element: <Kysymyslista kysymykset={kysymykset} />
+          element: <Kysymyslista alkuperaisetKysymykset={kysymykset} />
         },
         {
           path: "/hae",
           element: <Kysymyshaku kysymykset={kysymykset} />
+        },
+        {
+          path: "/muokkaa/:id",
+          element: <KysymysMuokkaa kysymykset={kysymykset} />
         },
       ]
     },

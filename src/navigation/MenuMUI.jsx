@@ -1,13 +1,6 @@
 import { useState } from 'react';
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import { Box, AppBar, Toolbar, IconButton, Typography, Menu, MenuItem, ListItemText, ListItemIcon } from '@mui/material';
+import { Tabs, Tab } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -15,6 +8,10 @@ import CreateIcon from '@mui/icons-material/Create';
 import HomeIcon from '@mui/icons-material/Home';
 import ListIcon from '@mui/icons-material/List';
 import SearchIcon from '@mui/icons-material/Search';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
+import { Edit } from '@mui/icons-material';
 
 function MenuMUI() {
 
@@ -32,27 +29,13 @@ function MenuMUI() {
     <Box>
       <AppBar position='static' style={{ background: 'transparent', boxShadow: 'none' }}>
         <Toolbar>
-          <IconButton size='large' onClick={menuOpen}><MenuIcon /></IconButton>
-          <Typography color='primary'>OPPIMISPÄIVÄKIRJA</Typography>
-          <Menu anchorEl={anchorMenu} open={Boolean(anchorMenu)}
-            onClose={menuClose}>
-            <MenuItem component={Link} to="/" onClick={menuClose}>
-              <ListItemIcon><HomeIcon /></ListItemIcon>
-              <ListItemText primary='Koti' />
-            </MenuItem>
-            <MenuItem onClick={menuClose} component={Link} to="/lisaa">
-              <ListItemIcon><CreateIcon /></ListItemIcon>
-              <ListItemText primary='Lisää uusi kysymys' />
-            </MenuItem>
-            <MenuItem onClick={menuClose} component={Link} to="/listaa">
-              <ListItemIcon><ListIcon /></ListItemIcon>
-              <ListItemText primary='Kaikki kysymykset' />
-            </MenuItem>
-            <MenuItem onClick={menuClose} component={Link} to="/hae">
-              <ListItemIcon><SearchIcon /></ListItemIcon>
-              <ListItemText primary='Hae kysymyksiä' />
-            </MenuItem>
-          </Menu>
+          <Typography variant='h5' sx={{ color: 'black', flexGrow: 1 }}>OPPIMISPÄIVÄKIRJA</Typography>
+          <Tabs sx={{ marginLeft: 'auto' }}>
+            <Tab component={Link} to="/" label='Kirjoita' icon={<EditIcon />} />
+            <Tab component={Link} to="/listaa" label='Kaikki kysymykset' icon={<ListIcon />} />
+            <Tab component={Link} to="/lisaa" label='Lisää uusi kysymys' icon={<AddIcon />} />
+            <Tab component={Link} to="/hae" label='Hae kysymyksiä' icon={<SearchIcon />} />
+          </Tabs>
         </Toolbar>
       </AppBar>
       <Outlet />
