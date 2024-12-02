@@ -1,13 +1,32 @@
 import { useState } from "react";
 import { Box, Paper, Button, Typography, TextField } from "@mui/material";
+import { useEffect } from "react";
+import { getKysymykset } from "./KysymysService";
 
-function Paivakirja({ kysymykset, kysymys }) {
-    /* Komponentti ottaa vastaan propsin nimeltä kysymykset ja tuon objektin muuttujan nimeltä kysymys */
+function Paivakirja() {
+    const [kysymykset, setKysymykset] = useState([]);
+    const [virhe, setVirhe] = useState('');
+
+    const haeKysymykset = async () => {
+        try {
+            let kysymysData = await getKysymykset();
+            setKysymykset(kysymysData.data);
+            setVirhe('');
+        } catch (error) {
+            console.log(error);
+            setVirhe('Kysymysten haku ei onnistunut');
+        }
+    }
+
+    useEffect(() => {
+        haeKysymykset();
+    }, []);
 
     const [merkinta, setMerkinta] = useState('');
     const [vastausLaskuri, setVastausLaskuri] = useState({});
     const [viesti, setViesti] = useState('');
     const [randomIndex, setRandomIndex] = useState(Math.floor(Math.random() * kysymykset.length));
+
 
     // Tallenna vastaus
     const tallennaVastaus = () => {
@@ -55,7 +74,18 @@ function Paivakirja({ kysymykset, kysymys }) {
                     margin: 'auto',
                 }}
             >
-                <Typography variant="h5">{kysymykset[randomIndex][kysymys]}</Typography>
+                {kysymykset.length > 0 && (
+                    <>
+                        <Box sx={{ width: '100%', textAlign: 'center', marginBottom: 2 }}>
+                            <img
+                                src={`http://localhost:8080/images/${kysymykset[randomIndex]?.kuva || ''}`}
+                                alt="Kuva"
+                                style={{ width: '30%', maxWidth: 300, height: 'auto' }}
+                            />
+                        </Box>
+                        <Typography variant="h5">{kysymykset[randomIndex]?.kysymys || 'Ei kysymystä saatavilla'}</Typography>
+                    </>
+                )}
                 <TextField
                     label="Vastaus"
                     multiline
