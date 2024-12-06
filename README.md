@@ -2,6 +2,6 @@
 
 Haaga-Helian Front end -ohjelmointi -kurssin harjoitustyö.
 
-Oppimispäiväkirjasovellu tukee oppimispäiväkirja kirjoittamista kysymällä kirjoittamista tukevia kysymyksiä.
+Oppimispäiväkirjasovellus, joka tukee ohjelmistokehittäjäopiskelijan oppimispäiväkirjan kirjoittamista kysymällä kirjoittamista tukevia kysymyksiä.
 
-Ohjelmassa olevia kysymyksiä voi lisätä, poistaa ja muokata.
+Projektin pääfocus harjoitella rakentamaan front end sovellus käyttäen Reactia ja Material UI:ta. 
