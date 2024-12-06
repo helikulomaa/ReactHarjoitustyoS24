@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import ListIcon from '@mui/icons-material/List';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
+import NotesIcon from '@mui/icons-material/Notes';
 
 function MenuMUI() {
   const [value, setValue] = useState(0); // Aktiivinen välilehti
@@ -24,10 +25,13 @@ function MenuMUI() {
             value={value}
             onChange={handleTabChange}
             sx={{
-              marginLeft: 'auto', '& .Mui-selected': { color: 'black' },
+              marginLeft: 'auto',
+              '& .MuiTab-root': { color: 'gray' },
+              '& .Mui-selected': { color: 'black' },
               '& .MuiTabs-indicator': { backgroundColor: 'gray' },
             }}
           >
+            <Tab component={Link} to="/oppimispaivakirja" label='Oppimispäiväkirjani' icon={<NotesIcon />} />
             <Tab component={Link} to="/" label='Kirjoita' icon={<EditIcon />} />
             <Tab component={Link} to="/listaa" label='Kaikki kysymykset' icon={<ListIcon />} />
             <Tab component={Link} to="/lisaa" label='Lisää uusi kysymys' icon={<AddIcon />} />

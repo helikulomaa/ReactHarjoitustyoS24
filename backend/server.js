@@ -59,25 +59,15 @@ app.use('/images', express.static('images'))
 //poista kysymys
 app.delete('/kysymys/delete/:id', (req, res) => {
   let id = req.params.id;
-  db.run('DELETE FROM Kysymykset WHERE id = ?', [id], (error) => {
+  db.run('DELETE FROM Kysymykset WHERE id = ?', [id], function (error) {
     if (error) {
       return res.status(400).json({ message: error.message });
     }
-    return res.status(200).json({ count: 1 });
+    if (this.changes === 0) {
+      return res.status(404).json({ message: 'Kysymystä ei löytynyt' });
+    }
+    return res.status(200).json({ count: this.changes });
   });
-});
-
-//muokkaa kysymystä
-app.put('/kysymys/edit/:id', (req, res) => {
-  let kysymys = req.body;
-  let id = req.params.id;
-  db.run('UPDATE Kysymykset SET kysymys = ?, luontipaiva = ?, kategoria = ?, kuva = ? WHERE id = ?',
-    [kysymys.kysymys, kysymys.luontipaiva, kysymys.kategoria, kysymys.kuva, id], (error) => {
-      if (error) {
-        return res.status(400).json({ message: error.message });
-      }
-      return res.status(200).json({ count: 1 });
-    });
 });
 
 //lisää kysymys
@@ -96,6 +86,15 @@ app.post('/kysymys/add', (req, res) => {
 app.get('/download/:nimi', (req, res) => {
   let file = './images/' + req.params.nimi;
   res.download(file);
+});
+
+app.get('/vastaus/all', (req, res) => {
+  db.all('SELECT * FROM vastaukset', (error, results) => {
+    if (error) {
+      return res.status(400).json({ message: error.message });
+    }
+    return res.status(200).json(results);
+  });
 });
 
 // Jos mikään aiempi reititys on sopinut, silloin suoritetaan tämä

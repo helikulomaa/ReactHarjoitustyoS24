@@ -5,8 +5,8 @@ import Kysymyslista from './components/Kysymyslista';
 import Kysymyslomake from './components/Kysymyslomake';
 import Kysymyshaku from './components/Kysymyshaku';
 import Paivakirja from './components/Paivakirja'
-import KysymysMuokkaa from './components/KysymysMuokkaa';
 import Virhe from './components/Virhe';
+import Vastaukset from './components/Vastaukset';
 import MenuMUI from './navigation/MenuMUI';
 import { Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -28,6 +28,22 @@ function App() {
       fontFamily: "'Quicksand', sans-serif",
     },
     components: {
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            '&.Mui-selected': {
+              color: '#000000',
+            },
+          },
+        },
+      },
+      MuiTabs: {
+        styleOverrides: {
+          indicator: {
+            backgroundColor: '#000000',
+          },
+        },
+      },
       MuiTableCell: {
         styleOverrides: {
           head: {
@@ -59,37 +75,6 @@ function App() {
       },
     },
   });
-
-  const [kysymykset, setKysymykset] = useState([
-    {
-      id: 1,
-      kysymys: 'Minkä niksin opin tänään harjoittelemastani ohjelmointikielestä tai työkalusta?',
-      luontipaiva: '3.9.2024',
-      kategoria: '1',
-      kuva: '../images/teknologiat.jpg'
-    },
-    {
-      id: 2,
-      kysymys: 'Mitä opin tänään SCRUM-työskentelystä?',
-      luontipaiva: '12.9.2024',
-      kategoria: '2',
-      kuva: '../images/prosessit.jpg'
-    },
-    {
-      id: 3,
-      kysymys: 'Minkä ymmärtäminen tuntui vaikealta tänään?',
-      luontipaiva: '24.9.2024',
-      kategoria: '1',
-      kuva: '../images/teknologiat.jpg'
-    },
-    {
-      id: 4,
-      kysymys: 'Mitä opin tänään tiimityöskentelystä?',
-      luontipaiva: '12.9.2024',
-      kategoria: '3',
-      kuva: '../images/tiimi.jpg'
-    }
-  ]);
 
   function Error() {
     let error = useRouteError();
@@ -123,7 +108,7 @@ function App() {
       children: [
         {
           path: "/",
-          element: <Paivakirja kysymykset={kysymykset} kysymys='kysymys' />
+          element: <Paivakirja />
         },
         {
           path: "/lisaa",
@@ -131,19 +116,19 @@ function App() {
         },
         {
           path: "/listaa",
-          element: <Kysymyslista alkuperaisetKysymykset={kysymykset} />
+          element: <Kysymyslista />
         },
         {
           path: "/hae",
-          element: <Kysymyshaku kysymykset={kysymykset} />
-        },
-        {
-          path: "/muokkaa/:id",
-          element: <KysymysMuokkaa kysymykset={kysymykset} />
+          element: <Kysymyshaku />
         },
         {
           path: 'virhe/:viesti',
           element: <Virhe />
+        },
+        {
+          path: '/oppimispaivakirja',
+          element: <Vastaukset />
         }
       ]
     },

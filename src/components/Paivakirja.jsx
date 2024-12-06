@@ -6,6 +6,60 @@ import { getKysymykset } from "./KysymysService";
 function Paivakirja() {
     const [kysymykset, setKysymykset] = useState([]);
     const [virhe, setVirhe] = useState('');
+    const [vastaus, setVastaus] = useState({
+        teksti: ''
+    });
+
+    const muuta = (e) => {
+        setVastaus({
+          ...vastaus,
+          [e.target.name]: e.target.value
+        })
+        setViesti('');
+      }
+
+    const lisaaVastaus = async () => {
+        if (vastaus.testi.length === 0) {
+          setViesti('Kirjoita jotain.')
+        } else {
+    
+          let kuva = '';
+          if (kysymys.kategoria === '1') {
+            kuva = 'teknologiat.jpg';
+          } else if (kysymys.kategoria === '2') {
+            kuva = 'prosessit.jpg';
+          } else {
+            kuva = 'tiimi.jpg';
+          }
+    
+          const tiedot = {
+            kysymys: kysymys.kysymys,
+            kategoria: kysymys.kategoria,
+            luontipaiva: nykyinenPaiva,
+            kuva: kuva
+          };
+    
+          try {
+            const response = await addKysymys(tiedot);
+            if (response.status === 200) {
+              setViesti('Kysymys lisätty.');
+              setTimeout(() => {
+                setViesti('');
+              }, 2000);
+              setKysymys({
+                kysymys: '',
+                luontipaiva: new Date(),
+                kategoria: '',
+              });
+            } else {
+              setViesti('Kysymyksen lisääminen ei onnistunut.');
+            }
+          } catch (error) {
+            console.log(error);
+            setViesti('Kysymyksen lisääminen ei onnistunut.');
+          }
+        }
+      }
 
     const haeKysymykset = async () => {
         try {

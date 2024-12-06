@@ -1,10 +1,28 @@
-import { useState } from 'react';
-import { Box, Button, Typography, List, ListItem, TextField, Select, MenuItem } from "@mui/material";
+import { useState, useEffect } from 'react';
+import { Box, Button, Typography, List, ListItem, ListItemText, TextField, Select, MenuItem, Paper } from "@mui/material";
+import { getKysymykset } from './KysymysService';
 
-function Kysymyshaku({ kysymykset }) {
+function Kysymyshaku() {
     const [kategoria, setKategoria] = useState('');
     const [hakusana, setHakusana] = useState('');
     const [haetaan, setHaetaan] = useState(false);
+    const [kysymykset, setKysymykset] = useState([]);
+    const [virhe, setVirhe] = useState('');
+
+    const haeKysymyksetTietokannasta = async () => {
+        try {
+            let kysymysData = await getKysymykset();
+            setKysymykset(kysymysData.data);
+            setVirhe('');
+        } catch (error) {
+            console.log(error);
+            setVirhe('Kysymysten haku ei onnistunut');
+        }
+    }
+
+    useEffect(() => {
+        haeKysymyksetTietokannasta();
+    }, []);
 
     const muutaHakusana = (e) => {
         setHakusana(e.target.value);
@@ -26,7 +44,7 @@ function Kysymyshaku({ kysymykset }) {
 
             // Filtteröi kategorian perusteella, jos kategoria on valittu
             if (kategoria) {
-                result = result.filter(kysymys => kysymys.kategoria === kategoria);
+                result = result.filter(kysymys => kysymys.kategoria.toString() === kategoria.toString());
             }
 
             // Filtteröi hakusanan perusteella
@@ -35,10 +53,26 @@ function Kysymyshaku({ kysymykset }) {
                 result = result.filter(kysymys => kysymys.kysymys.toLowerCase().includes(lowerCaseHakusana));
             }
 
-            if (result.length > 0) {
-                return result.map(kysymys => (
-                    <Typography key={kysymys.id}>{kysymys.kysymys}</Typography>
-                ));
+            const kysymystenMaara = result.length;
+
+            if (kysymystenMaara > 0) {
+                return (
+                    <Box>
+                        <Paper sx={{ padding: 3 }}>
+
+                            <Typography variant="h6" mb={2}>
+                                Haulla löytyi {kysymystenMaara} kysymystä
+                            </Typography>
+                            <List>
+                                {result.map(kysymys => (
+                                    <ListItem key={kysymys.id}>
+                                        <ListItemText primary={kysymys.kysymys} />
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </Paper>
+                    </Box>
+                );
             } else {
                 return <Typography>Ei tuloksia hakuehdoilla</Typography>;
             }
