@@ -7,6 +7,7 @@ import Kysymyshaku from './components/Kysymyshaku';
 import Paivakirja from './components/Paivakirja'
 import Virhe from './components/Virhe';
 import Vastaukset from './components/Vastaukset';
+import VastausMuokkaa from './components/VastausMuokkaa';
 import MenuMUI from './navigation/MenuMUI';
 import { Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -16,12 +17,11 @@ import {
 } from '@mui/material/colors';
 import { createBrowserRouter, RouterProvider, useRouteError, isRouteErrorResponse, Link } from 'react-router-dom';
 
-
 function App() {
 
   const theme = createTheme({
     palette: {
-      primary: { main: yellow[700] },
+      primary: { main: yellow[800] },
       secondary: { main: blueGrey[700] },
     },
     typography: {
@@ -62,13 +62,20 @@ function App() {
               backgroundColor: blueGrey[800], // Tummempi hover-tilassa
             },
           },
-          outlined: {
-            backgroundColor: 'transparent', // Läpinäkyvä tausta outlined-nappuloille
-            color: blueGrey[700], // Käytä sininen-harmaata tekstivärinä
-            border: `1px solid ${blueGrey[700]}`, // Outline-väri
+          text: {
+            color: blueGrey[700],
+            backgroundColor: 'transparent',
             '&:hover': {
-              backgroundColor: blueGrey[50], // Vaalea hover-tausta
-              border: `1px solid ${blueGrey[800]}`, // Tummempi reunus hover-tilassa
+              backgroundColor: blueGrey[50],
+            },
+          },
+          outlined: {
+            background: 'transparent',
+            color: blueGrey[700],
+            borderColor: blueGrey[700],
+            backgroundColor: 'transparent',
+            '&:hover': {
+              backgroundColor: blueGrey[50],
             },
           },
         },
@@ -129,6 +136,10 @@ function App() {
         {
           path: '/oppimispaivakirja',
           element: <Vastaukset />
+        },
+        {
+          path: '/vastaus/muokkaa/:id',
+          element: <VastausMuokkaa />
         }
       ]
     },

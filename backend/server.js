@@ -97,6 +97,49 @@ app.get('/vastaus/all', (req, res) => {
   });
 });
 
+//lisää vastaus
+app.post('/vastaus/add', (req, res) => {
+  const { teksti, luotupvm } = req.body;
+  const sql = `INSERT INTO Vastaukset (teksti, luotupvm) VALUES (?, ?)`;
+  db.run(sql, [teksti, luotupvm], function (error) {
+    if (error) {
+      return res.status(400).json({ message: error.message });
+    }
+    return res.status(201).json({ id: this.lastID });
+  });
+});
+
+
+//poista vastaus
+app.delete('/vastaus/delete/:id', (req, res) => {
+  let id = req.params.id;
+  db.run('DELETE FROM Vastaukset WHERE id = ?', [id], function (error) {
+    if (error) {
+      return res.status(400).json({ message: error.message });
+    }
+    if (this.changes === 0) {
+      return res.status(404).json({ message: 'Vastausta ei löytynyt' });
+    }
+    return res.status(200).json({ count: this.changes });
+  });
+});
+
+//muokkaa vastausta
+app.put('/vastaus/muokkaa/:id', (req, res) => {
+  const { id } = req.params;
+  const { teksti, luotupvm } = req.body;
+  const sql = `UPDATE Vastaukset SET teksti = ?, luotupvm = ? WHERE id = ?`;
+  db.run(sql, [id, teksti, luotupvm], function (error) {
+    if (error) {
+      return res.status(400).json({ message: error.message });
+    }
+    if (this.changes === 0) {
+      return res.status(404).json({ message: 'Vastausta ei löytynyt' });
+    }
+    return res.status(200).json({ count: this.changes });
+  });
+});
+
 // Jos mikään aiempi reititys on sopinut, silloin suoritetaan tämä
 app.get('*', (req, res) => {
   return res.status(404).json({ message: 'Ei pyydettyä palvelua' })

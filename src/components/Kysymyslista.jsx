@@ -11,7 +11,7 @@ function Kysymyslista() {
     const haeKysymykset = async () => {
         try {
             let kysymysData = await getKysymykset();
-            setKysymykset(kysymysData.data);
+            setKysymykset(kysymysData);
             setVirhe('');
         } catch (error) {
             console.log(error);

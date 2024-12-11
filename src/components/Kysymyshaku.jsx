@@ -12,7 +12,7 @@ function Kysymyshaku() {
     const haeKysymyksetTietokannasta = async () => {
         try {
             let kysymysData = await getKysymykset();
-            setKysymykset(kysymysData.data);
+            setKysymykset(kysymysData);
             setVirhe('');
         } catch (error) {
             console.log(error);

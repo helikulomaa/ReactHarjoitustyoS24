@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Paper, Typography } from '@mui/material';
-import { getVastaukset } from './KysymysService';
+import { Box, Paper, Typography, Button } from '@mui/material';
+import { getVastaukset, deleteVastaus } from './KysymysService';
+import { Link as RouterLink } from 'react-router-dom';
 
 function Vastaukset() {
 
@@ -27,6 +28,11 @@ function Vastaukset() {
         return (<p>Vastauksia ei löydy</p>);
     }
 
+    const poista = (id) => {
+        deleteVastaus(id);
+        setVastaukset(vastaukset.filter(vastaus => vastaus.id !== id));
+    };
+
     return (
         <Box>
             <Paper sx={{ margin: 15, padding: 5 }}>
@@ -35,6 +41,8 @@ function Vastaukset() {
                     <Box key={vastaus.id}>
                         <Typography sx={{ margin: 2 }}>{new Intl.DateTimeFormat('fi-FI').format(new Date(vastaus.luotupvm))}</Typography>
                         <Typography sx={{ margin: 2 }}>{vastaus.teksti}</Typography>
+                        <Button variant='text' size='small' component={RouterLink} to={`/vastaus/muokkaa/${vastaus.id}`} >Muokkaa</Button>
+                        <Button variant='text' size='small' onClick={() => poista(vastaus.id)}>Poista</Button>
                     </Box>
                 ))}
             </Paper>

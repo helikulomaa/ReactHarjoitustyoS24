@@ -1,165 +1,135 @@
 import { useState } from "react";
 import { Box, Paper, Button, Typography, TextField } from "@mui/material";
 import { useEffect } from "react";
-import { getKysymykset } from "./KysymysService";
+import { getKysymykset, addVastaus } from "./KysymysService";
 
 function Paivakirja() {
-    const [kysymykset, setKysymykset] = useState([]);
-    const [virhe, setVirhe] = useState('');
-    const [vastaus, setVastaus] = useState({
-        teksti: ''
-    });
+  const [kysymykset, setKysymykset] = useState([]);
+  const [virhe, setVirhe] = useState('');
+  const [viesti, setViesti] = useState('');
+  const [vastaus, setVastaus] = useState('');
+  const [vastausLaskuri, setVastausLaskuri] = useState({});
+  const [randomIndex, setRandomIndex] = useState(null);
 
-    const muuta = (e) => {
-        setVastaus({
-          ...vastaus,
-          [e.target.name]: e.target.value
-        })
-        setViesti('');
-      }
+  // Haetaan kysymykset tietokannasta arvottavaksi
+  const haeKysymykset = async () => {
+    try {
+      let kysymysData = await getKysymykset();
+      setKysymykset(kysymysData);
+      setVirhe('');
+    } catch (error) {
+      console.log(error);
+      setVirhe('Kysymysten haku ei onnistunut');
+    }
+  }
 
-    const lisaaVastaus = async () => {
-        if (vastaus.testi.length === 0) {
-          setViesti('Kirjoita jotain.')
-        } else {
-    
-          let kuva = '';
-          if (kysymys.kategoria === '1') {
-            kuva = 'teknologiat.jpg';
-          } else if (kysymys.kategoria === '2') {
-            kuva = 'prosessit.jpg';
-          } else {
-            kuva = 'tiimi.jpg';
-          }
-    
-          const tiedot = {
-            kysymys: kysymys.kysymys,
-            kategoria: kysymys.kategoria,
-            luontipaiva: nykyinenPaiva,
-            kuva: kuva
-          };
-    
-          try {
-            const response = await addKysymys(tiedot);
-            if (response.status === 200) {
-              setViesti('Kysymys lisätty.');
-              setTimeout(() => {
-                setViesti('');
-              }, 2000);
-              setKysymys({
-                kysymys: '',
-                luontipaiva: new Date(),
-                kategoria: '',
-              });
-            } else {
-              setViesti('Kysymyksen lisääminen ei onnistunut.');
-            }
-          } catch (error) {
-            console.log(error);
-            setViesti('Kysymyksen lisääminen ei onnistunut.');
-          }
-        }
-      }
+  useEffect(() => {
+    haeKysymykset();
+  }, []);
 
-    const haeKysymykset = async () => {
-        try {
-            let kysymysData = await getKysymykset();
-            setKysymykset(kysymysData.data);
-            setVirhe('');
-        } catch (error) {
-            console.log(error);
-            setVirhe('Kysymysten haku ei onnistunut');
-        }
+  useEffect(() => {
+    if (kysymykset.length > 0) {
+      setRandomIndex(Math.floor(Math.random() * kysymykset.length));
+    }
+  }, [kysymykset]);
+
+
+  // Vastauksen tallennus
+  const muuta = (e) => {
+    setVastaus(e.target.value);
+  };
+
+
+  const lisaaVastaus = async () => {
+    if (!vastaus) {
+      setViesti('Kirjoita jotain.');
     }
 
-    useEffect(() => {
-        haeKysymykset();
-    }, []);
+    const nykyinenPaiva = new Date().toISOString().split('T')[0];
 
-    const [merkinta, setMerkinta] = useState('');
-    const [vastausLaskuri, setVastausLaskuri] = useState({});
-    const [viesti, setViesti] = useState('');
-    const [randomIndex, setRandomIndex] = useState(Math.floor(Math.random() * kysymykset.length));
-
-
-    // Tallenna vastaus
-    const tallennaVastaus = () => {
-        if (!merkinta.trim()) {
-            setViesti('Kirjoita vastaus ennen tallennusta.');
-            return;
-        }
-
-        // Päivitä laskuri
-        const laskuriPaivitys = { ...vastausLaskuri };
-        laskuriPaivitys[kysymys.id] = (laskuriPaivitys[kysymys.id] || 0) + 1;
-        setVastausLaskuri(laskuriPaivitys);
-
-        setViesti('Tallennettu!');
-        setTimeout(() => {
-            setViesti('');
-        }, 2000);
-        setMerkinta('');
+    const tiedot = {
+      teksti: vastaus,
+      luotupvm: nykyinenPaiva,
     };
 
-    // Satunnaisen indeksin päivitys
-    const updateRandomIndex = () => {
-        setRandomIndex(Math.floor(Math.random() * kysymykset.length));
+    try {
+      console.log("Lähetettävä data (JSON):", JSON.stringify(tiedot));
+      const response = await addVastaus(tiedot);
+      if (response.status === 201) {
+        setViesti('Teksti lisätty.');
+        setTimeout(() => {
+          setViesti('');
+        }, 2000);
+        setVastaus(''); // Tyhjennä tekstikentän
+      } else {
+        setViesti('Tekstin lisääminen ei onnistunut.');
+      }
+    } catch (error) {
+      console.log(error);
+      setViesti('Tekstin lisääminen ei onnistunut.');
     }
+  }
 
-    return (
-        <Box
-            sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: '100vh', // Täyttää koko näkymän korkeuden
-            }}
-        >
-            <Paper
-                elevation={3}
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 2,
-                    padding: 4,
-                    width: '60%',
-                    margin: 'auto',
-                }}
-            >
-                {kysymykset.length > 0 && (
-                    <>
-                        <Box sx={{ width: '100%', textAlign: 'center', marginBottom: 2 }}>
-                            <img
-                                src={`http://localhost:8080/images/${kysymykset[randomIndex]?.kuva || ''}`}
-                                alt="Kuva"
-                                style={{ width: '30%', maxWidth: 300, height: 'auto' }}
-                            />
-                        </Box>
-                        <Typography variant="h5">{kysymykset[randomIndex]?.kysymys || 'Ei kysymystä saatavilla'}</Typography>
-                    </>
-                )}
-                <TextField
-                    label="Vastaus"
-                    multiline
-                    rows={5}
-                    value={merkinta}
-                    onChange={(e) => setMerkinta(e.target.value)}
-                    sx={{ width: '90%' }}
-                />
-                <Box sx={{ display: 'flex', gap: 2, width: '50%' }}>
-                    <Button variant="contained" onClick={tallennaVastaus} sx={{ flex: 1 }}>
-                        Tallenna
-                    </Button>
-                    <Button variant="outlined" size="small" onClick={updateRandomIndex} sx={{ flex: 1 }}>
-                        Uusi kysymys
-                    </Button>
-                </Box>
-                {viesti && (<Typography variant="body1" color="primary"> {viesti}</Typography>)}
-            </Paper>
+  // Satunnaisen indeksin päivitys
+  const updateRandomIndex = () => {
+    setRandomIndex(Math.floor(Math.random() * kysymykset.length));
+  }
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh', // Täyttää koko näkymän korkeuden
+      }}
+    >
+      <Paper
+        elevation={3}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 2,
+          padding: 4,
+          width: '60%',
+          margin: 'auto',
+        }}
+      >
+        {kysymykset.length > 0 && (
+          <>
+            <Box sx={{ width: '100%', textAlign: 'center', marginBottom: 2 }}>
+              <img
+                src={`http://localhost:8080/images/${kysymykset[randomIndex]?.kuva || ''}`}
+                alt="Kuva"
+                style={{ width: '30%', maxWidth: 300, height: 'auto' }}
+              />
+            </Box>
+            <Typography variant="h5">{kysymykset[randomIndex]?.kysymys || 'Ei kysymystä saatavilla'}</Typography>
+          </>
+        )}
+        <TextField
+          label="Vastaus"
+          multiline
+          rows={5}
+          value={vastaus}
+          onChange={muuta}
+          sx={{ width: '90%' }}
+        />
+
+        <Box sx={{ display: 'flex', gap: 2, width: '50%' }}>
+          <Button variant="contained" onClick={lisaaVastaus} sx={{ flex: 1 }}>
+            Tallenna
+          </Button>
+          <Button variant="outlined" size="small" onClick={updateRandomIndex} sx={{ flex: 1 }}>
+            Uusi kysymys
+          </Button>
         </Box>
-    );
+        {viesti && (<Typography variant="body1" color="secondary"> {viesti}</Typography>)}
+      </Paper>
+    </Box>
+  );
 }
 
 export default Paivakirja;

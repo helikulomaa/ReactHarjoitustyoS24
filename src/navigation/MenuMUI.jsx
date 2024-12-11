@@ -31,11 +31,11 @@ function MenuMUI() {
               '& .MuiTabs-indicator': { backgroundColor: 'gray' },
             }}
           >
-            <Tab component={Link} to="/oppimispaivakirja" label='Oppimispäiväkirjani' icon={<NotesIcon />} />
             <Tab component={Link} to="/" label='Kirjoita' icon={<EditIcon />} />
             <Tab component={Link} to="/listaa" label='Kaikki kysymykset' icon={<ListIcon />} />
             <Tab component={Link} to="/lisaa" label='Lisää uusi kysymys' icon={<AddIcon />} />
             <Tab component={Link} to="/hae" label='Hae kysymyksiä' icon={<SearchIcon />} />
+            <Tab component={Link} to="/oppimispaivakirja" label='Oppimispäiväkirjani' icon={<NotesIcon />} />
           </Tabs>
         </Toolbar>
       </AppBar>
